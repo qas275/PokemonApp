@@ -43,7 +43,7 @@ public class Pokemon {
             logger.info(jobject.get("id").toString());
             poke.id = jobject.get("id").toString();//getJsonstring then get string method has issue here, not sure why cannot work
             poke.name = jobject.get("name").toString();
-            logger.info("WITHIN MODEL"+poke.name);
+            logger.info("WITHIN MODEL"+poke.id);
             JsonArray jArrayStats = jobject.get("stats").asJsonArray(); //need to do manual setting for each sub model
             List<Stats> holdingStatsList = new LinkedList<>();    
             for(int i=0; i<jArrayStats.size();i++){

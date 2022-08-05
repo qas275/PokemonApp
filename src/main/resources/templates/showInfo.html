@@ -8,7 +8,17 @@
 </head>
 <body th:object = "${reqPoke}">
         <p>Name:<span th:text= "*{name}"></span></p>
-        <p>Id:<span th:text= "*{id}"></span></p>
+        
+        <p>Stats:</p>
+        <ul th:each="stat:*{stats}">
+            <li>
+                <span th:object="${stat.statName}">
+                    <span th:text="*{statName}"></span>
+                </span>
+                <span th:text="${stat.baseStat}"></span>
+            </li>
+        </ul>
+    <a href = ></a>
 
 </body>
 </html>
