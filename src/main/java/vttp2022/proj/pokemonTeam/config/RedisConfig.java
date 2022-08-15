@@ -29,7 +29,7 @@ public class RedisConfig {
     private Optional<Integer> redisPort;
 
     //@Value("${spring.redis.password}")
-    private String redisPassword;
+    private String redisPassword="weishunlim";
 
     @Value("${spring.redis.database}")
     private int redisDatabase;
@@ -39,8 +39,8 @@ public class RedisConfig {
     @Scope("singleton")
     public RedisTemplate<String, Trainer> redisTemplate(){
         final RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-        redisPassword = System.getenv("redisPassword");
-        logger.info("REDIS DETAILS >>> "+ redisPassword + redisHost + redisPort);
+        //redisPassword = System.getenv("redisPassword");
+        logger.info("REDIS DETAILS >>> "+ redisPassword + redisHost + redisPort.get().toString());
         config.setHostName(redisHost);
         config.setPort(redisPort.get());
         config.setPassword(redisPassword);

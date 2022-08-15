@@ -24,9 +24,10 @@ public class htmlController {
     @Autowired
     PokeService PokeSvc;
 
-    Trainer currentTrainer;
+    Trainer currentTrainer = new Trainer();
     Pokemon reqPoke;
     Pokemon[] tmp;
+    
 
     //initial page
     @GetMapping(path = "/")
@@ -38,7 +39,7 @@ public class htmlController {
     //User login
     @GetMapping(path = "/user")
     public String login(Model model, @ModelAttribute Trainer trainer) {
-        Trainer currentTrainer = PokeSvc.getRedisTrainer(trainer.getTrainerName());
+        currentTrainer = PokeSvc.getRedisTrainer(trainer.getTrainerName());
         logger.info(currentTrainer.getTrainerName());
         model.addAttribute("Trainer", currentTrainer);
         List<String> pokeList = new LinkedList<>();
@@ -55,7 +56,7 @@ public class htmlController {
     //Search for Pokemon //TODO change to restcon or mouseout function
     @PostMapping(path = "/search")
     public String searchPage(Model model, @ModelAttribute Trainer modelTrainer){
-        reqPoke = PokeSvc.getApiPokemon(modelTrainer.getSearchPoke());
+        reqPoke = PokeSvc.getApiPokemon(modelTrainer.getSearchPoke()).get();
         logger.info(reqPoke.getName());
         model.addAttribute("reqPoke", reqPoke);
         return "showInfo";
@@ -72,8 +73,24 @@ public class htmlController {
     //add pokemon to team
     @GetMapping(path = "/add")
     public String addPoke(Model model){
-        List<String> currentPokeTeam = currentTrainer.getPokeList();
-        currentPokeTeam.add(reqPoke.getName());
+        if(null!=currentTrainer.getPokeTeam()){
+            if(currentTrainer.getPokeTeam().length<6){
+                Trainer updatedTrainer = PokeSvc.addPoketoTeam(reqPoke, currentTrainer);
+                List<String> pokeList = updatedTrainer.getPokeList(); //TODO check if can just use an array instead of a linkedlist
+                model.addAttribute("PokemonList",updatedTrainer.getPokeList());
+                return "userTeam";
+            }else{
+                model.addAttribute("PokemonList",currentTrainer.getPokeList());
+                return "userTeam";//TODO send user message team is full
+            }
+
+        }else{
+            //TODO code for new pokemon added to team
+        }
+    }
+
+    @GetMapping(path = "/back")
+    public String noAddPoke(Model model){
         model.addAttribute("PokemonList",currentTrainer.getPokeList());
         return "userTeam";
     }

@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Trainer {
     private String trainerName;
-    private Pokemon[] pokeTeam;
+    private Pokemon[] pokeTeamArr;
     private String searchPokeString;
-    public List<String> pokeList = new LinkedList<>();
+    public List<String> pokeListString = new LinkedList<>();
     private String searchPoke;
     
     public Trainer(){
@@ -27,11 +27,11 @@ public class Trainer {
     }
 
     public List<String> getPokeList() {
-        return pokeList;
+        return pokeListString;
     }
 
-    public void setPokeList(List<String> pokeList) {
-        this.pokeList = pokeList;
+    public void setPokeList(List<String> pokeListString) {
+        this.pokeListString = pokeListString;
     }
 
     public String getSearchPokeString() {
@@ -49,9 +49,9 @@ public class Trainer {
         this.trainerName = trainerName;
     }
     public Pokemon[] getPokeTeam() {
-        return pokeTeam;
+        return pokeTeamArr;
     }
     public void setPokeTeam(Pokemon[] pokeTeam) {
-        this.pokeTeam = pokeTeam;
+        this.pokeTeamArr = pokeTeam;
     }
 }

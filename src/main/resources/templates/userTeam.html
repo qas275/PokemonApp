@@ -9,6 +9,9 @@
 <body th:object="${Trainer}">
     <div>
         <h1><span><a th:text="*{trainerName}"></a><a>'s team</span></h1>
+        <ul th:each="pokemon:*{pokeListString}">
+            <span th:text = "${pokemon}"></span>
+        </ul>
         <a>List to code for</a>
     </div>
 

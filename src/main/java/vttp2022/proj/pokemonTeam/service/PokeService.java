@@ -1,5 +1,8 @@
 package vttp2022.proj.pokemonTeam.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ public class PokeService {
     String userInputUsername;
     Trainer currentTrainer;
 
+    //login to existing user or create new user in Redis
     public Trainer getRedisTrainer(String username){
         userInputUsername = username;
         boolean existingTrainer=redisTemplate.hasKey(username);
@@ -35,10 +39,10 @@ public class PokeService {
             currentTrainer = new Trainer(username);
             redisTemplate.opsForValue().setIfAbsent(username, currentTrainer);
         }else{
-            currentTrainer = (Trainer) redisTemplate.opsForValue().get(username);//TODO check mapping correct or not
-            if(null!=currentTrainer.getPokeTeam()){
+            currentTrainer = (Trainer) redisTemplate.opsForValue().get(username);//TODO username mapped correctly, check poketeam mapping when add done
+            if(null!=currentTrainer.getPokeTeam()){ //
                 for(Pokemon poke:currentTrainer.getPokeTeam()){
-                    currentTrainer.pokeList.add(poke.getName());
+                    currentTrainer.pokeListString.add(poke.getName());
                 }
             }
             logger.info("CURRENT LOGGED IN TRAINER>>> "+currentTrainer.getTrainerName());
@@ -47,13 +51,32 @@ public class PokeService {
         return currentTrainer;
     }
 
-    public Pokemon getApiPokemon(String searchName){
+    public Optional<Pokemon> getApiPokemon(String searchName){
         String reqPokeUrl = overallURL + "/" +searchName;
         RestTemplate templatePoke = new RestTemplate();
         ResponseEntity<String> resp = null;
-        resp = templatePoke.exchange(reqPokeUrl, HttpMethod.GET, null, String.class, 1);
-        Pokemon reqPoke = Pokemon.createJson(resp.getBody());
-        return reqPoke;
+        try {
+            resp = templatePoke.exchange(reqPokeUrl, HttpMethod.GET, null, String.class, 1);
+            Pokemon reqPoke = Pokemon.createJson(resp.getBody());
+            return Optional.of(reqPoke);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public Trainer addPoketoTeam(Pokemon pokeToAdd, Trainer currentTrainer){
+        Trainer trainerToUpdate = currentTrainer;
+        Pokemon[] newTeam = new Pokemon[currentTrainer.getPokeTeam().length+1];
+        for (int i=0; i< currentTrainer.getPokeTeam().length; i++){
+            newTeam[i] = currentTrainer.getPokeTeam()[i];
+        }
+        newTeam[newTeam.length-1] = reqPoke;
+        trainerToUpdate.setPokeTeam(newTeam);
+        trainerToUpdate.pokeListString.add(pokeToAdd.getName());
+        redisTemplate.opsForValue().set(trainerToUpdate.getTrainerName(), trainerToUpdate);
+        return trainerToUpdate;
     }
 
     // public Optional<Berry> getBerry(String berryInput){
