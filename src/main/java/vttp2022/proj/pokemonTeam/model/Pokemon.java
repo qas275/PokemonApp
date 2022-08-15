@@ -35,12 +35,13 @@ public class Pokemon {
 
     public static Pokemon createJson(String jsonString){
         Pokemon poke = new Pokemon();
-        logger.info("WITHIN MODEL");
+        logger.info("WITHIN MODEL CREATEJSON");
         try(InputStream is = new ByteArrayInputStream(jsonString.getBytes())){
             JsonReader reader = Json.createReader(is);
             JsonObject jobject = reader.readObject();
             logger.info("WITHIN TRY");
             logger.info(jobject.get("id").toString());
+            //creating new pokemon with response from api
             poke.id = jobject.get("id").toString();//getJsonstring then get string method has issue here, not sure why cannot work
             poke.name = jobject.get("name").toString();
             logger.info("WITHIN MODEL"+poke.id);

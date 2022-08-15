@@ -1,6 +1,5 @@
 package vttp2022.proj.pokemonTeam.model;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
