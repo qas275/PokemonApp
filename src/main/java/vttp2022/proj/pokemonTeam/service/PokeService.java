@@ -1,6 +1,5 @@
 package vttp2022.proj.pokemonTeam.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -34,30 +33,30 @@ public class PokeService {
     public Trainer getRedisTrainer(String username){
         userInputUsername = username;
         boolean existingTrainer=redisTemplate.hasKey(username);
-        System.out.println(username + " is EXISTING TRAINER>>> "+ existingTrainer);
+        logger.info(username + " is EXISTING TRAINER>>> "+ existingTrainer);
         if (!existingTrainer){
             currentTrainer = new Trainer(username);
             redisTemplate.opsForValue().setIfAbsent(username, currentTrainer);
         }else{
             currentTrainer = (Trainer) redisTemplate.opsForValue().get(username);//TODO username mapped correctly, check poketeam mapping when add done
-            if(null!=currentTrainer.getPokeTeam()){ //
-                for(Pokemon poke:currentTrainer.getPokeTeam()){
-                    currentTrainer.pokeListString.add(poke.getName());
-                }
+            logger.info(currentTrainer.getTrainerName());
+            if(null!=currentTrainer.getPokeArrString()){ //
+                logger.info("TEST >>> "+currentTrainer.getPokeArrString().toString());
+                logger.info("CURRENT LOGGED IN TRAINER>>> "+currentTrainer.getTrainerName());
+                logger.info("SIZE OF TRAINER TEAM >>> "+ currentTrainer.getPokeArrString().length);
             }
-            logger.info("CURRENT LOGGED IN TRAINER>>> "+currentTrainer.getTrainerName());
-            logger.info("SIZE OF TRAINER TEAM >>> "+ currentTrainer.getPokeList().size());
         }
         return currentTrainer;
     }
 
     public Optional<Pokemon> getApiPokemon(String searchName){
-        String reqPokeUrl = overallURL + "/" +searchName;
+        String reqPokeUrl = overallURL + "/" +searchName.toLowerCase();
         RestTemplate templatePoke = new RestTemplate();
         ResponseEntity<String> resp = null;
         try {
             resp = templatePoke.exchange(reqPokeUrl, HttpMethod.GET, null, String.class, 1);
             Pokemon reqPoke = Pokemon.createJson(resp.getBody());
+            logger.info("WITHIN SERVICE>>> "+reqPoke.getStatsMap().get("hp"));
             return Optional.of(reqPoke);
         } catch (Exception e) {
             logger.info(e.getMessage());
@@ -68,13 +67,17 @@ public class PokeService {
 
     public Trainer addPoketoTeam(Pokemon pokeToAdd, Trainer currentTrainer){
         Trainer trainerToUpdate = currentTrainer;
-        Pokemon[] newTeam = new Pokemon[currentTrainer.getPokeTeam().length+1];
-        for (int i=0; i< currentTrainer.getPokeTeam().length; i++){
-            newTeam[i] = currentTrainer.getPokeTeam()[i];
+        String[] newTeam = new String[1];
+        if(null!=currentTrainer.getPokeArrString()){
+            if(currentTrainer.getPokeArrString().length<6){
+                newTeam = new String[currentTrainer.getPokeArrString().length +1];
+                for (int i=0; i< currentTrainer.getPokeArrString().length; i++){
+                    newTeam[i]=currentTrainer.getPokeArrString()[i];
+                }
+            }
         }
-        newTeam[newTeam.length-1] = reqPoke;
-        trainerToUpdate.setPokeTeam(newTeam);
-        trainerToUpdate.pokeListString.add(pokeToAdd.getName());
+        newTeam[newTeam.length-1]=pokeToAdd.getName();    
+        trainerToUpdate.setPokeArrString(newTeam);
         redisTemplate.opsForValue().set(trainerToUpdate.getTrainerName(), trainerToUpdate);
         return trainerToUpdate;
     }

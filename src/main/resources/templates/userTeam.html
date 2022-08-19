@@ -9,7 +9,7 @@
 <body th:object="${Trainer}">
     <div>
         <h1><span><a th:text="*{trainerName}"></a><a>'s team</span></h1>
-        <ul th:each="pokemon:*{pokeListString}">
+        <ul th:each="pokemon:*{pokeArrString}">
             <span th:text = "${pokemon}"></span>
         </ul>
         <a>List to code for</a>
@@ -17,7 +17,7 @@
 
     <div>
         <form action = "#" th:action = "@{/search}" method = "post"}>
-            <p>Pokemon to show:<input type = "text" th:field="*{searchPoke}"><input type = "submit" value="search"/></p>
+            <p>Pokemon to show:<input type = "text" th:field="*{searchPokeString}"><input type = "submit" value="search"/></p>
         </form>
     </div>
 </body>

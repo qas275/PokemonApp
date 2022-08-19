@@ -10,13 +10,13 @@
         <p>Name:<span th:text= "*{name}"></span></p>
         
         <p>Stats:</p>
-        <ul th:each="stat:*{stats}">
-            <li>
-                <span th:object="${stat.statName}">
-                    <span th:text="*{statName}"></span>
-                </span>
-                <span th:text="${stat.baseStat}"></span>
-            </li>
+        <ul>
+            <li><span>HP:<span th:text="*{statsMap.get('hp')}"></span></span></li>
+            <li><span>ATTACK:<span th:text="*{statsMap.get('attack')}"></span></span></li>
+            <li><span>DEFENSE:<span th:text="*{statsMap.get('defense')}"></span></span></li>
+            <li><span>SPECIAL ATTACK:<span th:text="*{statsMap.get('special-attack')}"></span></span></li>
+            <li><span>SPECIAL DEFENSE:<span th:text="*{statsMap.get('special-defense')}"></span></span></li>
+            <li><span>SPEED:<span th:text="*{statsMap.get('speed')}"></span></span></li>
         </ul>
     <span><a th:href = "@{/add}" >ADD</a></span>
 

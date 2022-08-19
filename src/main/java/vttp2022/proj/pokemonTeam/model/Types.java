@@ -4,7 +4,7 @@ import jakarta.json.JsonObject;
 
 public class Types {
     private String slot;
-    private Type type;
+    private String type;
     
     public String getSlot() {
         return slot;
@@ -12,16 +12,16 @@ public class Types {
     public void setSlot(String slot) {
         this.slot = slot;
     }
-    public Type getType() {
+    public String getType() {
         return type;
     }
-    public void setType(Type type) {
+    public void setType(String type) {
         this.type = type;
     }
     public static Types createTypes(JsonObject currentTypes) {
         Types pokeTypes = new Types();
         pokeTypes.slot = currentTypes.get("slot").toString();
-        pokeTypes.type = Type.createType(currentTypes.getJsonObject("type"));
+        pokeTypes.type = currentTypes.getJsonObject("type").get("name").toString();
         return pokeTypes;
     }
 

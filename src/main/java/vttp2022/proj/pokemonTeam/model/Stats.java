@@ -4,7 +4,7 @@ import jakarta.json.JsonObject;
 
 public class Stats {
     private String baseStat;
-    private Stat statName;
+    private String statName;
 
     public String getBaseStat() {
         return baseStat;
@@ -12,10 +12,10 @@ public class Stats {
     public void setBaseStat(String baseStat) {
         this.baseStat = baseStat;
     }
-    public Stat getStatName() {
+    public String getStatName() {
         return statName;
     }
-    public void setStatName(Stat statName) {
+    public void setStatName(String statName) {
         this.statName = statName;
     }
 
@@ -23,7 +23,7 @@ public class Stats {
         Stats pokeStats = new Stats();
         pokeStats.setBaseStat(jObject.get("base_stat").toString());
         JsonObject statJObject = jObject.get("stat").asJsonObject();
-        pokeStats.setStatName(Stat.createStat(statJObject));
+        pokeStats.setStatName(statJObject.get("name").toString());
         
         return pokeStats;
     }
