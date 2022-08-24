@@ -39,7 +39,7 @@ public class RedisConfig {
     @Scope("singleton")
     public RedisTemplate<String, Trainer> redisTemplate(){
         final RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-        redisPassword = System.getenv("redisPassword");
+        //redisPassword = System.getenv("redisPassword");
         logger.info("REDIS DETAILS >>> "+ redisPassword + redisHost + redisPort.get().toString());
         config.setHostName(redisHost);
         config.setPort(redisPort.get());

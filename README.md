@@ -1,10 +1,12 @@
 # Current Status
 **Login Page:** Able to display. Not Styled
-**User's Team Page:** Able to retrieve username from redis and login, display, username, search box for pokemon usable, pokemon team can be displayed. Not styled.
-**Pokemon Search Result Page:** Able to display, show searched pokemon and all stats, able to add to team. Back function not tested, missing recommendation function, not styled. To test if team has 6 pokemon, can add function work. 
+**User's Team Page:** Able to retrieve username from redis and login, display, username, search box for pokemon usable, pokemon team can be displayed, each pokemon in team can be clicked to display info, able to sort up and down, delete. Not styled.
+**Pokemon Search Result Page:** Able to display, show searched pokemon and all stats, able to add to team, add does nothing if team has 6 pokemon already, back button working. Missing recommendation function, not styled.  
 
 # URGENT TODOS
-**RESOLVED_Unable to retrieve values from keys from redis, consider changing serializer to JDK object instead of json_**
+**RESOLVED _Unable to retrieve values from keys from redis, consider changing serializer to JDK object instead of json_**
+**RESOLVED _Inital creation of team has an empty object holding the first index of the array._**
+**RESOLVED _When user's team has 6 pokemon, adding another would cause team to be reset._**
 
 # NOTES
 **_Remove redis password and change code from @Value to Sys env in config and application properties when pushing._**

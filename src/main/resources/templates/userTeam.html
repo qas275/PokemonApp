@@ -10,9 +10,13 @@
     <div>
         <h1><span><a th:text="*{trainerName}"></a><a>'s team</span></h1>
         <ul th:each="pokemon:*{pokeArrString}">
-            <span th:text = "${pokemon}"></span>
+            <li>
+                <a th:href="@{/search/{pokemon}(pokemon=${pokemon})}"><span th:text = "${pokemon}"></span></a>
+                <a th:href="@{/moveUp/{pokemon}(pokemon=${pokemon})}"><input type="button" value=&#8593></a>
+                <a th:href="@{/moveDown/{pokemon}(pokemon=${pokemon})}"><input type="button" value=&#8595></a>
+                <a th:href="@{/delete/{pokemon}(pokemon=${pokemon})}"><input type="button" value="DELETE"></a>
+            </li>
         </ul>
-        <a>List to code for</a>
     </div>
 
     <div>
