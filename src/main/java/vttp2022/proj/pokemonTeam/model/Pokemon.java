@@ -3,6 +3,9 @@ package vttp2022.proj.pokemonTeam.model;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +20,7 @@ public class Pokemon {
     private HashMap<String, String> statsMap = new HashMap<>();
     private HashMap<String, String> typesMap = new HashMap<>();
     private Stats[] stats;
-    private Types[] types;
+    private String[] types;
     
     private static final Logger logger = LoggerFactory.getLogger(Pokemon.class);
     
@@ -42,8 +45,8 @@ public class Pokemon {
     public Stats[] getStats() { return stats; }
     public void setStats(Stats[] value) { this.stats = value; }
 
-    public Types[] getTypes() { return types; }
-    public void setTypes(Types[] value) { this.types = value; }
+    public String[] getTypes() { return types; }
+    public void setTypes(String[] value) { this.types = value; }
 
     //creating new pokemon with response from api
     public static Pokemon createJson(String jsonString){
@@ -85,11 +88,11 @@ public class Pokemon {
             
             //Types Unmarshalling
             JsonArray jArrayTypes = jobject.get("types").asJsonArray();
+            poke.setTypes(new String[jArrayTypes.size()]);
             for(int i=0; i<jArrayTypes.size();i++){
                 JsonObject currentStatJsonObject = jArrayTypes.getJsonObject(i);
-                String typeName = currentStatJsonObject.getJsonObject("type").get("name").toString();
-                String typeSlot = currentStatJsonObject.get("slot").toString();
-                poke.typesMap.put(typeName, typeSlot);
+                String typeName = currentStatJsonObject.getJsonObject("type").getString("name");
+                poke.types[i] = typeName;
             }
             // List<Types> holdingTypesList = new LinkedList<>();
             // for (int j=0;j<jArrayTypes.size();j++){
