@@ -115,7 +115,7 @@ public class PokeService {
         String[] newTeam = trainerToUpdate.getPokeArrString();
         int upperPokeIndex = Arrays.asList(newTeam).indexOf(pokeName);
         int lowerPokeIndex = upperPokeIndex+1;
-        if(upperPokeIndex<5){
+        if(lowerPokeIndex<currentTrainer.getPokeArrString().length){
             String oldUpperPoke = newTeam[upperPokeIndex];
             String oldLowerPoke = newTeam[lowerPokeIndex];
             newTeam[lowerPokeIndex]=oldUpperPoke;
