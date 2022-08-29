@@ -9,11 +9,15 @@
 </head>
 <body th:object = "${reqPoke}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-        <p>Name:<span th:text= "*{name}"></span></p>
-        <p>Type:</p>
-        <ul th:each="type:*{types}">
-            <li><span th:text = "${type}"></span></li>
-        </ul>
+        <p class = "jumbotron text-center">Name:<span style="text-transform:uppercase;" th:text= "*{name}"></span></p>
+        <P class="text-center">
+            <img class="rounded" style="width: auto; height: 195px;" th:src="*{imgURL}"></img><br>
+        </P>
+        <p>Type:
+            <span th:each="type:*{types}">
+                <span style="text-transform:uppercase;" th:text = "${type}"> </span>
+            </span>
+        </p>
         <p>Stats:</p>
         <div class = "bg-primary">
             <ul>
@@ -25,8 +29,10 @@
                 <li><span>SPEED:<span th:text="*{statsMap.get('speed')}"></span></span></li>
             </ul>
         </div>
-    <span><a th:href = "@{/add}" >ADD</a></span>
-    <span><a th:href = "@{/back}" >BACK</a></span>
+    <div class = "jumbotron text-center">
+        <span><a th:href = "@{/add}" ><input type="button" value="ADD"></a></span>
+        <span><a th:href = "@{/back}" ><input type="button" value="BACK"></a></span>
+    </div>
 
 </body>
 </html>

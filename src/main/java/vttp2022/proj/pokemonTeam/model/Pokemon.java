@@ -2,6 +2,7 @@ package vttp2022.proj.pokemonTeam.model;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class Pokemon {
     private HashMap<String, String> typesMap = new HashMap<>();
     private Stats[] stats;
     private String[] types;
+    private URI imgURL;
     
     private static final Logger logger = LoggerFactory.getLogger(Pokemon.class);
     
@@ -30,6 +32,14 @@ public class Pokemon {
     public void setStatsMap(HashMap<String, String> statsMap) {
         this.statsMap = statsMap;
     }
+    
+    public URI getImgURL() {
+        return imgURL;
+    }
+    public void setImgURL(URI imgURL) {
+        this.imgURL = imgURL;
+    }
+
     public HashMap<String, String> getTypesMap() {
         return typesMap;
     }
@@ -60,7 +70,8 @@ public class Pokemon {
             poke.id = jobject.get("id").toString();//getJsonstring then get string method has issue here
             poke.name = jobject.getString("name");
             logger.info("WITHIN MODEL POKEMON ID >>> "+poke.id+poke.name);
-
+            poke.imgURL = URI.create(jobject.getJsonObject("sprites").getJsonObject("other").getJsonObject("official-artwork").getString("front_default"));
+            logger.info("CURRENT POKE IMG >>> "+poke.imgURL.toString());
             //Stats Unmarshalling
             JsonArray jArrayStats = jobject.get("stats").asJsonArray(); //need to do manual setting for each sub model
             for(int i=0; i<jArrayStats.size();i++){
@@ -94,6 +105,8 @@ public class Pokemon {
                 String typeName = currentStatJsonObject.getJsonObject("type").getString("name");
                 poke.types[i] = typeName;
             }
+
+            
             // List<Types> holdingTypesList = new LinkedList<>();
             // for (int j=0;j<jArrayTypes.size();j++){
             //     JsonObject currentTypes = jArrayTypes.getJsonObject(j);
