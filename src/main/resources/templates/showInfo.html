@@ -9,30 +9,31 @@
 </head>
 <body th:object = "${reqPoke}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-        <p class = "jumbotron text-center">Name:<span style="text-transform:uppercase;" th:text= "*{name}"></span></p>
-        <P class="text-center">
-            <img class="rounded" style="width: auto; height: 195px;" th:src="*{imgURL}"></img><br>
-        </P>
-        <p>Type:
-            <span th:each="type:*{types}">
-                <span style="text-transform:uppercase;" th:text = "${type}"> </span>
-            </span>
-        </p>
-        <p>Stats:</p>
-        <div class = "bg-primary">
-            <ul>
-                <li><span>HP:<span th:text="*{statsMap.get('hp')}"></span></span></li>
-                <li><span>ATTACK:<span th:text="*{statsMap.get('attack')}"></span></span></li>
-                <li><span>DEFENSE:<span th:text="*{statsMap.get('defense')}"></span></span></li>
-                <li><span>SPECIAL ATTACK:<span th:text="*{statsMap.get('special-attack')}"></span></span></li>
-                <li><span>SPECIAL DEFENSE:<span th:text="*{statsMap.get('special-defense')}"></span></span></li>
-                <li><span>SPEED:<span th:text="*{statsMap.get('speed')}"></span></span></li>
-            </ul>
-        </div>
-    <div class = "jumbotron text-center">
-        <span><a th:href = "@{/add}" ><input type="button" value="ADD"></a></span>
-        <span><a th:href = "@{/back}" ><input type="button" value="BACK"></a></span>
+      
+    <div class = "jumbotron text-center">POKEMON #<span th:text= "${reqPoke.getID()}"></span>
+        <div><img class="rounded" style="width: auto; height: 250px;" th:src="*{imgURL}"></img></div>
+        <div class = "display-4" style="text-transform:uppercase;" th:text= "*{name}"></div>
+    </div>    
+    <p>Type:
+        <span th:each="type:*{types}">
+            <span style="text-transform:uppercase;" th:text = "${type}"> </span>
+        </span>
+    </p>
+    <p>Stats:</p>
+    <div class = "bg-primary">
+        <ul>
+            <li><span>HP:<span th:text="*{statsMap.get('hp')}"></span></span></li>
+            <li><span>ATTACK:<span th:text="*{statsMap.get('attack')}"></span></span></li>
+            <li><span>DEFENSE:<span th:text="*{statsMap.get('defense')}"></span></span></li>
+            <li><span>SPECIAL ATTACK:<span th:text="*{statsMap.get('special-attack')}"></span></span></li>
+            <li><span>SPECIAL DEFENSE:<span th:text="*{statsMap.get('special-defense')}"></span></span></li>
+            <li><span>SPEED:<span th:text="*{statsMap.get('speed')}"></span></span></li>
+        </ul>
     </div>
+<div class = "jumbotron text-center">
+    <span><a th:href = "@{/add}" ><input type="button" value="ADD"></a></span>
+    <span><a th:href = "@{/back}" ><input type="button" value="BACK"></a></span>
+</div>
 
 </body>
 </html>

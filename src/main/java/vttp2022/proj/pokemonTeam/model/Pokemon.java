@@ -4,8 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +14,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 
 public class Pokemon {
-    private String id;
+    private String idNum;
     private String name;
     private HashMap<String, String> statsMap = new HashMap<>();
     private HashMap<String, String> typesMap = new HashMap<>();
@@ -46,8 +44,8 @@ public class Pokemon {
     public void setTypesMap(HashMap<String, String> typesMap) {
         this.typesMap = typesMap;
     }
-    public String getID() { return id; }
-    public void setID(String value) { this.id = value; }
+    public String getID() { return idNum; }
+    public void setID(String value) { this.idNum = value; }
     
     public String getName() { return name; }
     public void setName(String value) { this.name = value; }
@@ -67,11 +65,11 @@ public class Pokemon {
             JsonObject jobject = reader.readObject();
             logger.info("JSON OBJ CREATED, ID >>> "+ jobject.get("id").toString());
 
-            poke.id = jobject.get("id").toString();//getJsonstring then get string method has issue here
+            poke.idNum = jobject.get("id").toString();//getJsonstring then get string method has issue here
             poke.name = jobject.getString("name");
-            logger.info("WITHIN MODEL POKEMON ID >>> "+poke.id+poke.name);
+            logger.info("WITHIN MODEL POKEMON ID >>> "+poke.idNum+poke.name);
             poke.imgURL = URI.create(jobject.getJsonObject("sprites").getJsonObject("other").getJsonObject("official-artwork").getString("front_default"));
-            logger.info("CURRENT POKE IMG >>> "+poke.imgURL.toString());
+            logger.info("CURRENT POKE ID >>> "+poke.idNum);
             //Stats Unmarshalling
             JsonArray jArrayStats = jobject.get("stats").asJsonArray(); //need to do manual setting for each sub model
             for(int i=0; i<jArrayStats.size();i++){

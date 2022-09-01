@@ -47,7 +47,7 @@ public class htmlController {
     @PostMapping(path = "/search")
     public String searchPage(Model model, @ModelAttribute Trainer modelTrainer){
         reqPoke = PokeSvc.getApiPokemon(modelTrainer.getSearchPokeString()).get();
-        logger.info(reqPoke.getName());
+        logger.info(reqPoke.getName()+reqPoke.getID());
         model.addAttribute("reqPoke", reqPoke);
         return "showInfo";
     }
