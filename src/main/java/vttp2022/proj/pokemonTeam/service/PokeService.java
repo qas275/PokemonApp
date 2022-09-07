@@ -92,11 +92,10 @@ public class PokeService {
         return trainerToUpdate;
     }
     
-    //move pokemon up in team, update redis
-    public Trainer moveUpPokemon(Trainer currentTrainer, String pokeName){
+    public Trainer moveUpPokemon(Trainer currentTrainer, String idxString){
         Trainer trainerToUpdate = currentTrainer;
         String[] newTeam = trainerToUpdate.getPokeArrString();
-        int lowerPokeIndex = Arrays.asList(newTeam).indexOf(pokeName);
+        int lowerPokeIndex = Integer.parseInt(idxString);
         int upperPokeIndex = lowerPokeIndex-1;
         if(lowerPokeIndex>0){
             String oldLowerPoke = newTeam[lowerPokeIndex];
@@ -110,10 +109,10 @@ public class PokeService {
     }
 
     //move pokemon down in team, update redis
-    public Trainer moveDownPokemon(Trainer currentTrainer, String pokeName){
+    public Trainer moveDownPokemon(Trainer currentTrainer, String idxString){
         Trainer trainerToUpdate = currentTrainer;
         String[] newTeam = trainerToUpdate.getPokeArrString();
-        int upperPokeIndex = Arrays.asList(newTeam).indexOf(pokeName);
+        int upperPokeIndex = Integer.parseInt(idxString);
         int lowerPokeIndex = upperPokeIndex+1;
         if(lowerPokeIndex<currentTrainer.getPokeArrString().length){
             String oldUpperPoke = newTeam[upperPokeIndex];
@@ -127,11 +126,11 @@ public class PokeService {
     }
 
     //delete pokemon, update redis
-    public Trainer deletePokemon(Trainer currentTrainer, String pokeName){
+    public Trainer deletePokemon(Trainer currentTrainer, String idxString){
         Trainer trainerToUpdate = currentTrainer;
         List<String> oldTeamList = Arrays.asList(trainerToUpdate.getPokeArrString());
-        int delIndex = oldTeamList.indexOf(pokeName);
-        logger.info("Delete request >>> "+pokeName+"|||del IDX >> "+delIndex+"||| deleting >>> "+oldTeamList.get(delIndex));
+        int delIndex = Integer.parseInt(idxString);
+        logger.info("Delete request >>> "+idxString+"|||del IDX >> "+delIndex+"||| deleting >>> "+oldTeamList.get(delIndex));
         List<String> newTeam= new ArrayList<>();
         String[] newTeamArr = new String[1];
         if(oldTeamList.size()>1){

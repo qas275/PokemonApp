@@ -76,23 +76,24 @@ public class htmlController {
         return "userTeam";
     }
 
-    @GetMapping(path="/moveUp/{pokeName}")
-    public String movePokeUp(Model model, @PathVariable String pokeName){
-        currentTrainer = PokeSvc.moveUpPokemon(currentTrainer, pokeName);
+    @GetMapping(path="/moveUp/{index}")
+    public String movePokeUp(Model model, @PathVariable String index){
+        logger.info("Index to change >>> "+index);
+        currentTrainer = PokeSvc.moveUpPokemon(currentTrainer, index);
         model.addAttribute("Trainer", currentTrainer);
         return "userTeam";
     }
 
-    @GetMapping(path="/moveDown/{pokeName}")
-    public String movePokeDown(Model model, @PathVariable String pokeName){
-        currentTrainer = PokeSvc.moveDownPokemon(currentTrainer, pokeName);
+    @GetMapping(path="/moveDown/{index}")
+    public String movePokeDown(Model model, @PathVariable String index){
+        currentTrainer = PokeSvc.moveDownPokemon(currentTrainer, index);
         model.addAttribute("Trainer", currentTrainer);
         return "userTeam";
     }
 
-    @GetMapping(path="/delete/{pokeName}")
-    public String deletePoke(Model model, @PathVariable String pokeName){
-        currentTrainer = PokeSvc.deletePokemon(currentTrainer, pokeName);
+    @GetMapping(path="/delete/{index}")
+    public String deletePoke(Model model, @PathVariable String index){
+        currentTrainer = PokeSvc.deletePokemon(currentTrainer, index);
         model.addAttribute("Trainer", currentTrainer);
         return "userTeam";
     }

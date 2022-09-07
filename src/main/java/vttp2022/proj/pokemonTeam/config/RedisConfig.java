@@ -29,7 +29,7 @@ public class RedisConfig {
     private Optional<Integer> redisPort;
 
     
-    private String redisPassword="";
+    private String redisPassword="";//quick password when working local
 
     @Value("${spring.redis.database}")
     private int redisDatabase;

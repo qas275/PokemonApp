@@ -14,26 +14,41 @@
         <div><img class="rounded" style="width: auto; height: 250px;" th:src="*{imgURL}"></img></div>
         <div class = "display-4" style="text-transform:uppercase;" th:text= "*{name}"></div>
     </div>    
-    <p>Type:
-        <span th:each="type:*{types}">
-            <span style="text-transform:uppercase;" th:text = "${type}"> </span>
-        </span>
-    </p>
-    <p>Stats:</p>
-    <div class = "bg-primary">
-        <ul>
-            <li><span>HP:<span th:text="*{statsMap.get('hp')}"></span></span></li>
-            <li><span>ATTACK:<span th:text="*{statsMap.get('attack')}"></span></span></li>
-            <li><span>DEFENSE:<span th:text="*{statsMap.get('defense')}"></span></span></li>
-            <li><span>SPECIAL ATTACK:<span th:text="*{statsMap.get('special-attack')}"></span></span></li>
-            <li><span>SPECIAL DEFENSE:<span th:text="*{statsMap.get('special-defense')}"></span></span></li>
-            <li><span>SPEED:<span th:text="*{statsMap.get('speed')}"></span></span></li>
-        </ul>
+    <table class = "container table table-sm table-striped table-dark table-bordered table-hover" >
+        <thead>
+            <tr>
+                <th scope="col">Types</th>
+                <th scope="col">        
+                    <p th:each="type:*{types}"><span style="text-transform:uppercase;" th:text = "${type}"></span></p>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span>HP:</span></td><td><span th:text="*{statsMap.get('hp')}"></span></td>
+            </tr>
+            <tr>
+                <td><span>ATTACK:</span></td><td><span th:text="*{statsMap.get('attack')}"></span></td>
+            </tr>
+            <tr>
+                <td><span>DEFENSE:</span></td><td><span th:text="*{statsMap.get('defense')}"></span></td>
+            </tr>
+            <tr>
+                <td><span>SPECIAL ATTACK:</span></td><td><span th:text="*{statsMap.get('special-attack')}"></span></td>
+            </tr>
+            <tr>
+                <td><span>SPECIAL DEFENSE:</span></td><td><span th:text="*{statsMap.get('special-defense')}"></span></td>
+            </tr>
+            <tr>
+                <td><span>SPEED:</span></td><td><span th:text="*{statsMap.get('speed')}"></span></td>
+            </tr>
+        </tbody>
+        
+    </table>
+    <div class = "jumbotron text-center">
+        <span><a th:href = "@{/add}" ><input type="button" value="ADD"></a></span>
+        <span><a th:href = "@{/back}" ><input type="button" value="BACK"></a></span>
     </div>
-<div class = "jumbotron text-center">
-    <span><a th:href = "@{/add}" ><input type="button" value="ADD"></a></span>
-    <span><a th:href = "@{/back}" ><input type="button" value="BACK"></a></span>
-</div>
 
 </body>
 </html>
