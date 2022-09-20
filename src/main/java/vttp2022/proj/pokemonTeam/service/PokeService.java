@@ -150,4 +150,11 @@ public class PokeService {
         redisTemplate.opsForValue().set(trainerToUpdate.getTrainerName(), trainerToUpdate);
         return trainerToUpdate;
     }
+
+    //restcontroller return json
+    public Optional<Trainer> restConResponse(String username){
+        logger.info("Restcontoller calling for >>>" + username);
+        Trainer restTrainer = (Trainer) redisTemplate.opsForValue().get(username);
+        return Optional.of(restTrainer);
+    }
 }
