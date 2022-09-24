@@ -44,9 +44,15 @@ public class htmlController {
         return "userTeam";
     }
     
-    //Search for Pokemon //TODO change to restcon or mouseout function
+    //Search for Pokemon //TODO future change to restcon or mouseout function
     @PostMapping(path = "/search")
     public String searchPage(Model model, @ModelAttribute Trainer modelTrainer){
+        if(modelTrainer.getSearchPokeString().equals("")){ //TODO check if enter blank will return error page
+            return "error";
+        }
+        if(modelTrainer.getSearchPokeString().toLowerCase().equals("your team is empty")){ //TODO check if click on empty will return correct original team, else change to conditioning in html
+            return "userTeam";
+        }
         reqPoke = PokeSvc.getApiPokemon(modelTrainer.getSearchPokeString()).get();
         logger.info(reqPoke.getName()+reqPoke.getID());
         model.addAttribute("reqPoke", reqPoke);

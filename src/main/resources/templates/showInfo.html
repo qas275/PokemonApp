@@ -13,11 +13,18 @@
 
     <div class = "jumbotron text-center">POKEMON #<span th:text= "${reqPoke.getID()}"></span>
         <div><img class="rounded" style="width: auto; height: 250px;" th:src="*{imgURL}"></img></div>
-        <div class = "rounded container-sm display-4 bg-secondary font-weight-bold" style="text-transform:uppercase;" th:text= "*{name}"></div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class = "col"></div>
+            <div class = "col  rounded container-sm display-4 bg-secondary font-weight-bold" style="text-transform:uppercase;" th:text= "*{name}"></div>
+            <div class = "col"></div>
+        </div>
     </div>
-    <p></p>    
-    <table class = "container table table-sm table-striped table-dark table-bordered table-hover" >
-        <thead>
+    <br>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class = "col"></div>
+        <div class = "col">
+        <table class = "col container table table-sm table-striped table-dark table-bordered table-hover" >
+            <thead>
             <tr>
                 <th scope="col" style="width: 16.66%">Types</th>
                 <th scope="col" style="width: 16.66%">        
@@ -45,11 +52,13 @@
                 <td><span>SPEED:</span></td><td><span th:text="*{statsMap.get('speed')}"></span></td>
             </tr>
         </tbody>
-        
-    </table>
+        </table>
+        </div>
+        <div class = "col"></div>
+    </div>   
     <div class = "jumbotron text-center">
-        <span><a th:href = "@{/add}" ><input type="button" value="ADD"></a></span>
-        <span><a th:href = "@{/back}" ><input type="button" value="BACK"></a></span>
+        <span><a th:href = "@{/add}" ><input type="button" value="ADD" class="btn btn-primary"></a></span>
+        <span><a th:href = "@{/back}" ><input type="button" value="BACK" class="btn btn-secondary"></a></span>
     </div>
     </div>
 </body>

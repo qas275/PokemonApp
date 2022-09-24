@@ -13,13 +13,9 @@
     height: 100vh; ">
 
     <h1 class = "jumbotron text-center"><span><a th:text="*{trainerName}"></a><a>'s team</span></h1>
-        <div>
-            <form action = "#" th:action = "@{/search}" method = "post"}>
-                <p class="text-center">Pokemon to search:<input type = "text" th:field="*{searchPokeString}" placeholder="Name or ID 1-898"><input type = "submit" value="search"/></p>
-            </form>
-        </div>
-        <div>
-        <table class = "container table table-sm table-striped table-dark table-bordered table-hover">
+
+    <div>
+        <table class = "rounded container table table-dark table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -43,10 +39,22 @@
                     <a th:href="@{/moveDown/{index}(index=${pokemonStat.index})}"><input type="button" value=&#8595 class="btn btn-primary"></a>
                     <a th:href="@{/delete/{index}(index=${pokemonStat.index})}" ><input type="button" value="DELETE" class="btn btn-danger"></a>
                 </td>
-            </tbody>
-            
+            </tbody>      
         </table>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col"></div> 
+        <div class="card bg-secondary ">
+            <form action = "#" th:action = "@{/search}" method = "post"}>
+                <p class="text-center" ><span class="rounded p-1 bg-info bg-opacity-50 ">Pokemon to search:</span><input class="rounded"  type = "text" th:field="*{searchPokeString}" placeholder="Name or ID 1-898" required><input type = "submit" value="search"/></p>
+            </form>
+        </div>
+        <div class="col"></div>
     </div>
     </div>
 </body>
 </html>
+
+
+
+</div>
