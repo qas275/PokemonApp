@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import vttp2022.proj.pokemonTeam.model.Pokemon;
 import vttp2022.proj.pokemonTeam.model.Trainer;
 import vttp2022.proj.pokemonTeam.service.PokeService;

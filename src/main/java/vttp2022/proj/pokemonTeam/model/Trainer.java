@@ -8,14 +8,12 @@ public class Trainer implements Serializable{
     public String[] pokeArrString= new String[1];
     public Pokemon[] pokeArrPoke = new Pokemon[1];
     
-        public Trainer(){
-            
-        }
+    public Trainer(){}
         
-        public Trainer(String username){
-            this.trainerName = username;
-            this.pokeArrString[0] = "Your Team is empty";
-        }
+    public Trainer(String username){
+        this.trainerName = username;
+        this.pokeArrString[0] = "Your Team is empty";
+    }
     
     public Pokemon[] getPokeArrPoke() {
         return pokeArrPoke;

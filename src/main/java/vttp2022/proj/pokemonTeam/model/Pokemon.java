@@ -4,10 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
@@ -17,44 +15,34 @@ public class Pokemon {
     private String idNum;
     private String name;
     private HashMap<String, String> statsMap = new HashMap<>();
-    private HashMap<String, String> typesMap = new HashMap<>();
-    private Stats[] stats;
     private String[] types;
     private URI imgURL;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(Pokemon.class);
     
-    public HashMap<String, String> getStatsMap() {
-        return statsMap;
-    }
-    public void setStatsMap(HashMap<String, String> statsMap) {
-        this.statsMap = statsMap;
-    }
+    public HashMap<String, String> getStatsMap() { return statsMap; }
+    public void setStatsMap(HashMap<String, String> statsMap) { this.statsMap = statsMap; }
     
-    public URI getImgURL() {
-        return imgURL;
-    }
-    public void setImgURL(URI imgURL) {
-        this.imgURL = imgURL;
-    }
-
-    public HashMap<String, String> getTypesMap() {
-        return typesMap;
-    }
-    public void setTypesMap(HashMap<String, String> typesMap) {
-        this.typesMap = typesMap;
-    }
+    public URI getImgURL() { return imgURL; }
+    public void setImgURL(URI imgURL) { this.imgURL = imgURL; }
+    
     public String getID() { return idNum; }
     public void setID(String value) { this.idNum = value; }
     
     public String getName() { return name; }
     public void setName(String value) { this.name = value; }
-
-    public Stats[] getStats() { return stats; }
-    public void setStats(Stats[] value) { this.stats = value; }
-
+    
     public String[] getTypes() { return types; }
     public void setTypes(String[] value) { this.types = value; }
+    
+    // private HashMap<String, String> typesMap = new HashMap<>();
+    // private Stats[] stats;
+    // public HashMap<String, String> getTypesMap() {
+        //     return typesMap;
+        // }
+        // public void setTypesMap(HashMap<String, String> typesMap) {
+    //     this.typesMap = typesMap;
+    // }
 
     //creating new pokemon with response from api
     public static Pokemon createJson(String jsonString){
@@ -64,12 +52,12 @@ public class Pokemon {
             JsonReader reader = Json.createReader(is);
             JsonObject jobject = reader.readObject();
             logger.info("JSON OBJ CREATED, ID >>> "+ jobject.get("id").toString());
-
             poke.idNum = jobject.get("id").toString();//getJsonstring then get string method has issue here
             poke.name = jobject.getString("name");
             logger.info("WITHIN MODEL POKEMON ID >>> "+poke.idNum+poke.name);
             poke.imgURL = URI.create(jobject.getJsonObject("sprites").getJsonObject("other").getJsonObject("official-artwork").getString("front_default"));
             logger.info("CURRENT POKE ID >>> "+poke.idNum);
+            
             //Stats Unmarshalling
             JsonArray jArrayStats = jobject.get("stats").asJsonArray(); //need to do manual setting for each sub model
             for(int i=0; i<jArrayStats.size();i++){
@@ -80,17 +68,6 @@ public class Pokemon {
                 logger.info("WITHIN POKEMON BASESTAT>>" + baseStat);
                 poke.statsMap.put(statName, baseStat);
             }
-            // List<Stats> holdingStatsList = new LinkedList<>();
-            // for(int i=0; i<jArrayStats.size();i++){
-            //     JsonObject currentStats = jArrayStats.get(i).asJsonObject();
-            //     Stats holdingStats = Stats.createStats(currentStats);
-            //     holdingStatsList.add(holdingStats);
-            // }
-            // Stats[] arr = new Stats[holdingStatsList.size()];
-            // for(int j=0;j<holdingStatsList.size();j++){
-            //     arr[j] = holdingStatsList.get(j);
-            // }
-            // poke.stats=arr;
             logger.info("STATNAME HP >>>> "+poke.statsMap.get("hp"));
             logger.info("STATNAME ATTACK >>>> "+poke.statsMap.get("attack"));
             logger.info(jArrayStats.toString());
@@ -103,8 +80,19 @@ public class Pokemon {
                 String typeName = currentStatJsonObject.getJsonObject("type").getString("name");
                 poke.types[i] = typeName;
             }
-
             
+            
+            // List<Stats> holdingStatsList = new LinkedList<>();
+            // for(int i=0; i<jArrayStats.size();i++){
+            //     JsonObject currentStats = jArrayStats.get(i).asJsonObject();
+            //     Stats holdingStats = Stats.createStats(currentStats);
+            //     holdingStatsList.add(holdingStats);
+            // }
+            // Stats[] arr = new Stats[holdingStatsList.size()];
+            // for(int j=0;j<holdingStatsList.size();j++){
+            //     arr[j] = holdingStatsList.get(j);
+            // }
+            // poke.stats=arr;
             // List<Types> holdingTypesList = new LinkedList<>();
             // for (int j=0;j<jArrayTypes.size();j++){
             //     JsonObject currentTypes = jArrayTypes.getJsonObject(j);
