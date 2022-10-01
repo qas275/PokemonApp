@@ -25,7 +25,7 @@ public class PokeService {
     RedisTemplate<String, Trainer> redisTemplate;
     
     public Pokemon reqPoke;
-    String overallURL = "https://pokeapi.co/api/v2/pokemon";
+    static String overallURL = "https://pokeapi.co/api/v2/";
     String userInputUsername;
     Trainer currentTrainer;
 
@@ -48,20 +48,24 @@ public class PokeService {
     }
 
     //connect to api and unmarshal pokemon info
-    public Optional<Pokemon> getApiPokemon(String searchName){
-        String reqPokeUrl = overallURL + "/" +searchName.toLowerCase(); //build api URL
+    public static Optional<Pokemon> getApiPokemon(String searchName){
+        String reqPokeUrl = overallURL + "pokemon/" +searchName.toLowerCase(); //build api URL
         RestTemplate templatePoke = new RestTemplate();
         ResponseEntity<String> resp = null;
         try { //retrieve json from api
+            logger.info("WITHIN SERVICE RESP BODY>>>");
             resp = templatePoke.exchange(reqPokeUrl, HttpMethod.GET, null, String.class, 1);
+            logger.info("WITHIN SERVICE BEFORE>>>");
+            //logger.info("WITHIN SERVICE RESP BODY>>>" + resp.getBody());
             Pokemon reqPoke = Pokemon.createJson(resp.getBody()); //unmarshal details into pokemon object
             logger.info("WITHIN SERVICE>>> "+reqPoke.getStatsMap().get("hp"));
             return Optional.of(reqPoke);
         } catch (Exception e) {
             logger.info(e.getMessage());
             e.printStackTrace();
+            logger.info("RUNNING ERROR");
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 
     //add pokemon to team, update redis
@@ -147,6 +151,33 @@ public class PokeService {
         trainerToUpdate.setPokeArrString(newTeamArr);
         redisTemplate.opsForValue().set(trainerToUpdate.getTrainerName(), trainerToUpdate);
         return trainerToUpdate;
+    }
+
+    public Optional<Pokemon[]> getRecommendedPokemons(String searchCategoryString){
+        Pokemon[] result = new Pokemon[6];
+        String[] namesArr = new String[6];
+        String reqPokeUrl = overallURL + "type/" +searchCategoryString.toLowerCase(); //build api URL
+        RestTemplate templatePoke = new RestTemplate();
+        ResponseEntity<String> resp = null;
+        try { //retrieve json from api
+            logger.info("WITHIN SVC LISTING RESP BODY>>>");
+            resp = templatePoke.exchange(reqPokeUrl, HttpMethod.GET, null, String.class, 1);
+            namesArr = Pokemon.createPokemonArr(resp.getBody()); //unmarshal details into pokemon object
+            for(int j=0;j<6;j++){
+                String pokeName = namesArr[j];
+                result[j] = PokeService.getApiPokemon(pokeName).get();
+                logger.info(result[j].getName());
+            }
+            for(int i=0; i<result.length;i++){
+                logger.info("IT WORKS POKEMON ARRAY NUMBER "+i+" >>> "+ result[i].getName());
+            }
+            return Optional.of(result);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            e.printStackTrace();
+            logger.info("RUNNING ERROR");
+            return Optional.empty();
+        }
     }
 
     //restcontroller return json

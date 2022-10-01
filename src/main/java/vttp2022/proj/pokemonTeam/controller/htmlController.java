@@ -1,5 +1,7 @@
 package vttp2022.proj.pokemonTeam.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,9 @@ public class htmlController {
 
     Trainer currentTrainer = new Trainer();
     public Pokemon reqPoke;
-
+    public Pokemon[] reqPokeArr;
     //initial page
-    @GetMapping(path = "/")
+    @GetMapping(path = {"/home","/"})
     public String startPage(Model model){
         model.addAttribute("Trainer", new Trainer());
         return "startPage";
@@ -46,13 +48,40 @@ public class htmlController {
     //Search for Pokemon //TODO future change to restcon or mouseout function
     @PostMapping(path = "/search")
     public String searchPage(Model model, @ModelAttribute Trainer modelTrainer){
-        if(modelTrainer.getSearchPokeString().equals("")){ //TODO check if enter blank will return error page
-            return "error";
-        }
-        if(modelTrainer.getSearchPokeString().toLowerCase().equals("your team is empty")){ //TODO check if click on empty will return correct original team, else change to conditioning in html
+        // if(modelTrainer.getSearchPokeString().equals("")){ //html side has set required field no need for this
+        //     return "error";
+        // }
+
+        //special case to jump out of sequence in the event user tried to open info on "Your team is empty" object in the user team page
+        if(modelTrainer.getSearchPokeString().toLowerCase().equals("your team is empty")){
             return "userTeam";
         }
-        reqPoke = PokeSvc.getApiPokemon(modelTrainer.getSearchPokeString()).get();
+        logger.info("SEARCH TYPE >>>"+modelTrainer.getSearchPokeCatString());
+        switch (modelTrainer.getSearchPokeCatString()) {
+            case "Name/ID":
+                Optional<Pokemon> request = PokeService.getApiPokemon(modelTrainer.getSearchPokeString());
+                if(request.isEmpty()){
+                    return "error";
+                }
+                reqPoke = request.get();
+                logger.info(reqPoke.getName()+reqPoke.getID());
+                model.addAttribute("reqPoke", reqPoke);
+                return "showInfo";        
+            case "Type":
+                Optional<Pokemon[]> requestArr = PokeSvc.getRecommendedPokemons(modelTrainer.getSearchPokeString());
+                if(requestArr.isEmpty()){
+                    return "error";
+                }
+                reqPokeArr = requestArr.get();
+                reqPokeArr[0].getName();
+                model.addAttribute("reqPokeArr", reqPokeArr);
+                return "pokeSearchList";
+        }
+        Optional<Pokemon> request = PokeService.getApiPokemon(modelTrainer.getSearchPokeString());
+        if(request.isEmpty()){
+            return "error";
+        }
+        reqPoke = request.get();
         logger.info(reqPoke.getName()+reqPoke.getID());
         model.addAttribute("reqPoke", reqPoke);
         return "showInfo";
@@ -60,7 +89,11 @@ public class htmlController {
     
     @GetMapping(path = "/search/{pokeName}")
     public String searchPage(Model model, @PathVariable String pokeName){
-        reqPoke = PokeSvc.getApiPokemon(pokeName).get();
+        Optional<Pokemon> request = PokeService.getApiPokemon(pokeName);
+        if(request.isEmpty()){
+            return "error";
+        }
+        reqPoke = request.get();
         logger.info(reqPoke.getName());
         model.addAttribute("reqPoke", reqPoke);
         return "showInfo";
@@ -104,8 +137,8 @@ public class htmlController {
         return "userTeam";
     }
 
-    @ExceptionHandler
-    public String errorPage(){
-        return "error";
-    }
+    // @ExceptionHandler
+    // public String errorPage(){
+    //     return "redirect";
+    // }
 }

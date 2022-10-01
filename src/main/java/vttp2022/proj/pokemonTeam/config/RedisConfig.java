@@ -29,7 +29,7 @@ public class RedisConfig {
     private Optional<Integer> redisPort;
 
     
-    private String redisPassword="";//quick password when working local
+    private String redisPassword="weishunlim";//quick password when working local
 
     @Value("${spring.redis.database}")
     private int redisDatabase;
@@ -39,14 +39,14 @@ public class RedisConfig {
     @Scope("singleton")
     public RedisTemplate<String, Trainer> redisTemplate(){
         final RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-        redisPassword = System.getenv("redisPassword");
+        //redisPassword = System.getenv("redisPassword");
         logger.info("REDIS DETAILS >>> "+ redisPassword + redisHost + redisPort.get().toString());
         config.setHostName(redisHost);
         config.setPort(redisPort.get());
         config.setPassword(redisPassword);
         config.setDatabase(redisDatabase);
 
-
+        //serializers
         Jackson2JsonRedisSerializer Jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Trainer.class);
         final JedisClientConfiguration jedisClient = JedisClientConfiguration.builder().build();
         final JedisConnectionFactory jedisFac = new JedisConnectionFactory(config, jedisClient);

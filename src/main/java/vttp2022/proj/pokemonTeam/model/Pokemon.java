@@ -2,16 +2,22 @@ package vttp2022.proj.pokemonTeam.model;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import vttp2022.proj.pokemonTeam.service.PokeService;
 
-public class Pokemon {
+public class Pokemon implements Serializable{
     private String idNum;
     private String name;
     private HashMap<String, String> statsMap = new HashMap<>();
@@ -20,6 +26,10 @@ public class Pokemon {
 
     private static final Logger logger = LoggerFactory.getLogger(Pokemon.class);
     
+    @Autowired
+    static
+    PokeService PokeSvc;
+
     public HashMap<String, String> getStatsMap() { return statsMap; }
     public void setStatsMap(HashMap<String, String> statsMap) { this.statsMap = statsMap; }
     
@@ -113,5 +123,27 @@ public class Pokemon {
             e.printStackTrace();
         }
         return poke;
+    }
+
+
+    public static String[] createPokemonArr(String jsonString){
+        String[] pokemonStringArr = new String[6];
+        Random rand = new Random();
+        try(InputStream is = new ByteArrayInputStream(jsonString.getBytes())){
+            JsonReader reader = Json.createReader(is);
+            JsonObject jobject = reader.readObject();
+            logger.info("JSON OBJ CREATED, ID >>> "+ jobject.get("id").toString());
+            JsonArray pokeJsArr = jobject.get("pokemon").asJsonArray();
+            int pokeArrSize = pokeJsArr.size(); 
+            for(int i=0; i<6;i++){
+                int randNum = rand.nextInt(pokeArrSize);
+                pokemonStringArr[i] = pokeJsArr.getJsonObject(randNum).getJsonObject("pokemon").getString("name");
+                logger.info("I >>> " + i + " POKENAME >>> " + pokemonStringArr[i]);
+            }
+            return pokemonStringArr;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pokemonStringArr;
     }
 }
