@@ -31,7 +31,7 @@ public class RedisConfig {
     
     private String redisPassword="";//quick password when working local
 
-    @Value("${spring.redis.database}")
+    @Value("${spring.redis.database}") 
     private int redisDatabase;
 
 
