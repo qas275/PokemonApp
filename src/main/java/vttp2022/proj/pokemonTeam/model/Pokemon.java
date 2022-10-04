@@ -10,6 +10,7 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -17,9 +18,11 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import vttp2022.proj.pokemonTeam.service.PokeService;
 
+@Component("Pokemon")
 public class Pokemon implements Serializable{
-    private String idNum;
-    private String name;
+    public String idNum;
+    public boolean checked = false; 
+    public String name;
     private HashMap<String, String> statsMap = new HashMap<>();
     private String[] types;
     private URI imgURL;
@@ -29,10 +32,13 @@ public class Pokemon implements Serializable{
     @Autowired
     static
     PokeService PokeSvc;
-
+    
     public HashMap<String, String> getStatsMap() { return statsMap; }
     public void setStatsMap(HashMap<String, String> statsMap) { this.statsMap = statsMap; }
     
+    public boolean isChecked() {return checked;}
+    public void setChecked(boolean checked) {this.checked = checked;}
+
     public URI getImgURL() { return imgURL; }
     public void setImgURL(URI imgURL) { this.imgURL = imgURL; }
     
@@ -54,6 +60,12 @@ public class Pokemon implements Serializable{
     //     this.typesMap = typesMap;
     // }
 
+    public Pokemon(){
+
+    }
+    public Pokemon(String pokename){
+        this.name = pokename;
+    }
     //creating new pokemon with response from api
     public static Pokemon createJson(String jsonString){
         Pokemon poke = new Pokemon();

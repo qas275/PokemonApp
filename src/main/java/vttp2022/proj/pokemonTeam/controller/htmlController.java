@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import vttp2022.proj.pokemonTeam.model.Pokemon;
 import vttp2022.proj.pokemonTeam.model.Trainer;
@@ -72,9 +73,9 @@ public class htmlController {
                 if(requestArr.isEmpty()){
                     return "error";
                 }
-                reqPokeArr = requestArr.get();
-                reqPokeArr[0].getName();
-                model.addAttribute("reqPokeArr", reqPokeArr);
+                currentTrainer.pokeSearchArrPoke = requestArr.get();
+                currentTrainer.pokeSearchArrPoke[0].getName();
+                model.addAttribute("reqTrainer", currentTrainer);
                 return "pokeSearchList";
         }
         Optional<Pokemon> request = PokeService.getApiPokemon(modelTrainer.getSearchPokeString());
@@ -134,6 +135,16 @@ public class htmlController {
     public String deletePoke(Model model, @PathVariable String index){
         currentTrainer = PokeSvc.deletePokemon(currentTrainer, index);
         model.addAttribute("Trainer", currentTrainer);
+        return "userTeam";
+    }
+
+    @PostMapping(path="/addMultiple")
+    public String addMultiplePoke(Model model, @ModelAttribute Trainer reqTrainer){
+        logger.info(reqTrainer.getTrainerName());
+        logger.info(reqTrainer.pokeSearchArrPoke[0].getName());
+        logger.info(String.valueOf(reqTrainer.pokeSearchArrPoke[0].isChecked()));
+        logger.info(reqTrainer.pokeSearchArrPoke[1].getName());
+        logger.info(String.valueOf(reqTrainer.pokeSearchArrPoke[1].isChecked()));
         return "userTeam";
     }
 

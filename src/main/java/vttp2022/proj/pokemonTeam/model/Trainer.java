@@ -2,13 +2,25 @@ package vttp2022.proj.pokemonTeam.model;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
+@Component("Trainer")
 public class Trainer implements Serializable{
     private String trainerName;
     private String searchPokeString;
     private String searchPokeCatString;
     public String[] pokeArrString= new String[1];
     public Pokemon[] pokeArrPoke = new Pokemon[1];
+    public Pokemon[] pokeSearchArrPoke = new Pokemon[1];
     
+    public Pokemon[] getPokeSearchArrPoke() {
+        return pokeSearchArrPoke;
+    }
+
+    public void setPokeSearchArrPoke(Pokemon[] pokeSearchArrPoke) {
+        this.pokeSearchArrPoke = pokeSearchArrPoke;
+    }
+
     public Trainer(){}
     
     public Trainer(String username){
