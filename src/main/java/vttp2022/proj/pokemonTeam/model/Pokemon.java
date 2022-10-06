@@ -30,7 +30,6 @@ public class Pokemon implements Serializable{
     private static final Logger logger = LoggerFactory.getLogger(Pokemon.class);
     
     @Autowired
-    static
     PokeService PokeSvc;
     
     public HashMap<String, String> getStatsMap() { return statsMap; }

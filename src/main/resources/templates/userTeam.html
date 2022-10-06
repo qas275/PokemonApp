@@ -14,7 +14,7 @@
     height: 100vh; ">-->
     <img src="https://assets.pokemon.com//assets/cms2/img/misc/virtual-backgrounds/masters/forest.jpg" id="bg" style="z-index:-5;" >
 
-    <h1 class = "jumbotron text-center"><span><a th:text="*{trainerName}"></a><a>'s team</span></h1>
+    <h1 class = "jumbotron text-center card bg-secondary"><span><a th:text="*{trainerName}"></a><a>'s team</span></h1>
 
     <div>
         <table class = "container table table-dark table-striped table-bordered table-hover">
@@ -31,23 +31,23 @@
                     <b><span th:text="${pokemonStat.count}"></span></b>
                 </td>
                 <td>
-                    <a th:href="@{/search/{pokemon}(pokemon=${pokemon})}" style="text-decoration:none">
+                    <a th:href="@{'/' + *{trainerName} + '/search/' + ${pokemon}}" style="text-decoration:none">
                         <b><span style="text-transform:uppercase;" class="text-blue" th:text = "${pokemon}"></span></b>
                     </a>
                 </td>
                 <td> <img class="rounded" style="width: auto; height: 50px;" th:src="${imgURL}"></img> </td>
                 <td>
-                    <a th:href="@{/moveUp/{index}(index=${pokemonStat.index})}"><input type="button" value=&#8593 class="btn btn-primary"></a>
-                    <a th:href="@{/moveDown/{index}(index=${pokemonStat.index})}"><input type="button" value=&#8595 class="btn btn-primary"></a>
-                    <a th:href="@{/delete/{index}(index=${pokemonStat.index})}" ><input type="button" value="DELETE" class="btn btn-danger"></a>
+                    <a th:href="@{'/' + *{trainerName} + '/moveUp/' + ${pokemonStat.index}}"><input type="button" value=&#8593 class="btn btn-primary"></a>
+                    <a th:href="@{'/' + *{trainerName} + '/moveDown/' + ${pokemonStat.index}}"><input type="button" value=&#8595 class="btn btn-primary"></a>
+                    <a th:href="@{'/' + *{trainerName} + '/delete/' + ${pokemonStat.index}}" ><input type="button" value="DELETE" class="btn btn-danger"></a>
                 </td>
-            </tbody>      
+            </tbody>
         </table>
     </div>
     <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
         <div class="col"></div> 
         <div class="card bg-secondary ">
-            <form action = "#" th:action = "@{/search}" method = "post"}>
+            <form action = "#" th:action = "@{/*{trainerName}/search}" method = "post"}>
                 <label for="Search Type" class="rounded bg-info bg-opacity-50 ">Search Pokemon By:</label>
                 <select name = "Search Type" th:field = "*{searchPokeCatString}">
                     <option value = "Name/ID">Name/ID</option>
@@ -55,7 +55,7 @@
                 </select>
                 <p>
                     <input class="rounded"  type = "text" th:field="*{searchPokeString}" placeholder="Name or ID 1-898" required>
-                    <input type = "submit" value="search"/>
+                    <input type = "submit" value="SEARCH"/>
                 </p>
             </form>
         </div>

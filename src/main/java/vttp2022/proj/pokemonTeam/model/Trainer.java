@@ -9,6 +9,14 @@ public class Trainer implements Serializable{
     private String trainerName;
     private String searchPokeString;
     private String searchPokeCatString;
+    public Pokemon reqPoke;
+    public Pokemon getReqPoke() {
+        return reqPoke;
+    }
+
+    public void setReqPoke(Pokemon reqPoke) {
+        this.reqPoke = reqPoke;
+    }
     public String[] pokeArrString= new String[1];
     public Pokemon[] pokeArrPoke = new Pokemon[1];
     public Pokemon[] pokeSearchArrPoke = new Pokemon[1];

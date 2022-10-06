@@ -15,13 +15,15 @@
         <div class="container" >
             <input type = "hidden" th:field = "*{trainerName}">
             <div class="row row-cols-3">
-                <div th:each="Pokemon, stat:*{pokeSearchArrPoke}">
-                    <div class = "col card" >
-                        <img class="jumbotron text-center" style="width: 100px; height: 100px;" th:src="${Pokemon.imgURL}"></img>
-                        <input type = "text" th:field="*{pokeSearchArrPoke[__${stat.index}__].name}">
+                <div class = "col"th:each="Pokemon, stat:*{pokeSearchArrPoke}">
+                    <div class = "col card " >
+                        <div class = "d-flex justify-content-center">
+                            <img class="" style="width: 100px; height: 100px;" th:src="${Pokemon.imgURL}"></img>
+                        </div>
+                        <input type = "text" class  = "text-center" style="text-transform:uppercase;" th:field="*{pokeSearchArrPoke[__${stat.index}__].name}">
+                        <p class  = "text-center" th:text="${Pokemon.idNum}" style="text-transform:uppercase;"></p>
+                        <span class  = "text-center" th:each="type:${Pokemon.types}"><span style="text-transform:uppercase;" th:text = "${type}"></span></span>
                         <input type = "checkbox" th:field = "*{pokeSearchArrPoke[__${stat.index}__].checked}">
-                        <p th:text="${Pokemon.idNum}" style="text-transform:uppercase;"></p>
-                        <span th:each="type:${Pokemon.types}"><span style="text-transform:uppercase;" th:text = "${type}"></span></span>
                     </div>
                 </div>
             </div>
