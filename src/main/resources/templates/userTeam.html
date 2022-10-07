@@ -47,7 +47,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
         <div class="col"></div> 
         <div class="card bg-secondary ">
-            <form action = "#" th:action = "@{/*{trainerName}/search}" method = "post"}>
+            <form action = "#" th:action = "@{'/' + *{trainerName} + '/search'}" method = "post"}>
                 <label for="Search Type" class="rounded bg-info bg-opacity-50 ">Search Pokemon By:</label>
                 <select name = "Search Type" th:field = "*{searchPokeCatString}">
                     <option value = "Name/ID">Name/ID</option>

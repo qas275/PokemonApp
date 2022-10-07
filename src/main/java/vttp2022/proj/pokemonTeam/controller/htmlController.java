@@ -99,9 +99,9 @@ public class htmlController {
 
     //add pokemon to team
     @GetMapping(path = "/{username}/add/{reqPoke}")
-    public String addPoke(Model model, @PathVariable String username, @PathVariable Pokemon reqPoke){
+    public String addPoke(Model model, @PathVariable String username, @PathVariable String reqPoke){
         Trainer currentTrainer = PokeSvc.getRedisTrainer(username);
-        currentTrainer = PokeSvc.addPoketoTeam(reqPoke, currentTrainer);
+        currentTrainer = PokeSvc.addPoketoTeam(PokeService.getApiPokemon(reqPoke).get(), currentTrainer);
         logger.info("CONTROLLER POKEMON ADDED TO TEAM");
         model.addAttribute("Trainer", currentTrainer);
         return "userTeam";
