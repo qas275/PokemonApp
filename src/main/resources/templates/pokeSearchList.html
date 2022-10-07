@@ -21,17 +21,20 @@
                             <img class="" style="width: 100px; height: 100px;" th:src="${Pokemon.imgURL}"></img>
                         </div>
                         <input type = "text" class  = "text-center" style="text-transform:uppercase;" th:field="*{pokeSearchArrPoke[__${stat.index}__].name}">
-                        <p class  = "text-center" th:text="${Pokemon.idNum}" style="text-transform:uppercase;"></p>
-                        <span class  = "text-center" th:each="type:${Pokemon.types}"><span style="text-transform:uppercase;" th:text = "${type}"></span></span>
+                        <p>ID: <span class  = "text-center" th:text="${Pokemon.idNum}" style="text-transform:uppercase;"></span> </p>
+                        <p>Type: <span class  = "text-center" th:each="type:${Pokemon.types}"> <span style="text-transform:uppercase;" th:text = "${type}"> </span></span> </p>
                         <input type = "checkbox" th:field = "*{pokeSearchArrPoke[__${stat.index}__].checked}">
                     </div>
                 </div>
             </div>
         </div>
-        <div>
+        <div class = "text-center">
             <p>
-                <input type = "submit" value="Add Selected"/>
+                <input class="btn btn-primary" type = "submit" value="ADD SELECTED"/>
+                <span><a th:href = "@{'/' + *{trainerName} + '/addAll'}" ><input type="button" value="ADD ALL" class="btn btn-success"></a></span>
+                <span><a th:href = "@{'/' + *{trainerName} + '/back'}" ><input type="button" value="BACK" class="btn btn-secondary"></a></span>
             </p>
+
         </div>
     </form>
 </body>

@@ -158,6 +158,22 @@ public class htmlController {
         return "userTeam";
     }
 
+    @GetMapping(path="/{username}/addAll")
+    public String addAllPoke(Model model, @ModelAttribute Trainer reqTrainer, @PathVariable String username){
+        Trainer currentTrainer = PokeSvc.getRedisTrainer(username);
+        logger.info(currentTrainer.getTrainerName());
+        logger.info(currentTrainer.pokeSearchArrPoke[0].getName());
+        logger.info(String.valueOf(currentTrainer.pokeSearchArrPoke[0].isChecked()));
+        logger.info(currentTrainer.pokeSearchArrPoke[1].getName());
+        logger.info(String.valueOf(currentTrainer.pokeSearchArrPoke[1].isChecked()));
+        for(Pokemon poke :currentTrainer.pokeSearchArrPoke){
+            poke.setChecked(false);
+            currentTrainer = PokeSvc.addPoketoTeam(poke, currentTrainer);    
+        }
+        model.addAttribute("Trainer", currentTrainer);
+        return "userTeam";
+    }
+
     // @ExceptionHandler
     // public String errorPage(){
     //     return "redirect";
