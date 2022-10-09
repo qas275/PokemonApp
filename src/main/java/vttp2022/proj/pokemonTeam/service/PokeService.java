@@ -153,6 +153,7 @@ public class PokeService {
         return trainerToUpdate;
     }
 
+    //Return multiple pokemon
     public Optional<Pokemon[]> getRecommendedPokemons(String searchCategoryString){
         Pokemon[] result = new Pokemon[6];
         String[] namesArr = new String[6];

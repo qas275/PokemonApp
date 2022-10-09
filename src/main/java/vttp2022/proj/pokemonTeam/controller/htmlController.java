@@ -25,9 +25,6 @@ public class htmlController {
     @Autowired
     PokeService PokeSvc;
 
-    // Trainer currentTrainer = new Trainer();
-    // public Pokemon reqPoke;
-    // public Pokemon[] reqPokeArr;
     //initial page
     @GetMapping(path = {"/home","/"})
     public String startPage(Model model){
@@ -44,17 +41,16 @@ public class htmlController {
         return "userTeam";
     }
     
-    //Search for Pokemon //TODO future change to restcon or mouseout function
+    //Search for Pokemon 
     @PostMapping(path = "/{username}/search")
     public String searchPage(Model model, @ModelAttribute Trainer modelTrainer, @PathVariable String username){
         Trainer currentTrainer = PokeSvc.getRedisTrainer(username);
-        //special case to jump out of sequence in the event user tried to open info on "Your team is empty" object in the user team page
-        if(modelTrainer.getSearchPokeString().toLowerCase().equals("your team is empty")){
+        if(modelTrainer.getSearchPokeString().toLowerCase().equals("your team is empty")){ //special case to jump out of sequence in the event user tried to open info on "Your team is empty" object in the user team page
             return "userTeam";
         }
         logger.info("SEARCH TYPE >>>"+modelTrainer.getSearchPokeCatString());
         switch (modelTrainer.getSearchPokeCatString()) {
-            case "Name/ID":
+            case "Name/ID": //SEARCH BASED ON NAME
                 Optional<Pokemon> request = PokeService.getApiPokemon(modelTrainer.getSearchPokeString());
                 if(request.isEmpty()){
                     return "error";
@@ -63,27 +59,21 @@ public class htmlController {
                 logger.info(currentTrainer.reqPoke.getName()+currentTrainer.reqPoke.getID());
                 model.addAttribute("reqTrainer", currentTrainer);
                 return "showInfo";        
-            case "Type":
+            case "Type": //SEARCH BASED ON TYPE
                 Optional<Pokemon[]> requestArr = PokeSvc.getRecommendedPokemons(modelTrainer.getSearchPokeString());
                 if(requestArr.isEmpty()){
                     return "error";
                 }
                 currentTrainer.pokeSearchArrPoke = requestArr.get();
-                currentTrainer.pokeSearchArrPoke[0].getName();
+                // currentTrainer.pokeSearchArrPoke[0].getName();
                 model.addAttribute("reqTrainer", currentTrainer);
                 return "pokeSearchList";
         }
-        Optional<Pokemon> request = PokeService.getApiPokemon(modelTrainer.getSearchPokeString());
-        if(request.isEmpty()){
-            return "error";
-        }
-        Pokemon reqPoke = request.get();
-        logger.info(reqPoke.getName()+reqPoke.getID());
-        model.addAttribute("reqPoke", reqPoke);
         return "showInfo";
     }
     
-    @GetMapping(path = "/{username}/search/{pokeName}")
+    //allow for clicking on pokemon name to search
+    @GetMapping(path = "/{username}/search/{pokeName}") 
     public String searchPage(Model model, @PathVariable String pokeName, @PathVariable String username){
         Trainer currentTrainer = PokeSvc.getRedisTrainer(username);
         Optional<Pokemon> request = PokeService.getApiPokemon(pokeName);
@@ -115,6 +105,7 @@ public class htmlController {
         return "userTeam";
     }
 
+    //MOVE POKEMON UP AND DOWN
     @GetMapping(path="/{username}/moveUp/{index}")
     public String movePokeUp(Model model, @PathVariable String index, @PathVariable String username){
         Trainer currentTrainer = PokeSvc.getRedisTrainer(username);
@@ -132,6 +123,7 @@ public class htmlController {
         return "userTeam";
     }
 
+    //DELETE
     @GetMapping(path="/{username}/delete/{index}")
     public String deletePoke(Model model, @PathVariable String index, @PathVariable String username){
         Trainer currentTrainer = PokeSvc.getRedisTrainer(username);
@@ -140,13 +132,10 @@ public class htmlController {
         return "userTeam";
     }
 
+    //ADD MULTIPLE SELECTED POKEMON
     @PostMapping(path="/{username}/addMultiple")
     public String addMultiplePoke(Model model, @ModelAttribute Trainer reqTrainer, @PathVariable String username){
         Trainer currentTrainer = PokeSvc.getRedisTrainer(username);
-        logger.info(reqTrainer.getTrainerName());
-        logger.info(reqTrainer.pokeSearchArrPoke[0].getName());
-        logger.info(String.valueOf(reqTrainer.pokeSearchArrPoke[0].isChecked()));
-        logger.info(reqTrainer.pokeSearchArrPoke[1].getName());
         logger.info(String.valueOf(reqTrainer.pokeSearchArrPoke[1].isChecked()));
         for(Pokemon poke :reqTrainer.pokeSearchArrPoke){
             if(poke.checked){
@@ -158,13 +147,10 @@ public class htmlController {
         return "userTeam";
     }
 
+    //ADD ALL POKEMON
     @GetMapping(path="/{username}/addAll")
     public String addAllPoke(Model model, @ModelAttribute Trainer reqTrainer, @PathVariable String username){
         Trainer currentTrainer = PokeSvc.getRedisTrainer(username);
-        logger.info(currentTrainer.getTrainerName());
-        logger.info(currentTrainer.pokeSearchArrPoke[0].getName());
-        logger.info(String.valueOf(currentTrainer.pokeSearchArrPoke[0].isChecked()));
-        logger.info(currentTrainer.pokeSearchArrPoke[1].getName());
         logger.info(String.valueOf(currentTrainer.pokeSearchArrPoke[1].isChecked()));
         for(Pokemon poke :currentTrainer.pokeSearchArrPoke){
             poke.setChecked(false);

@@ -11,60 +11,57 @@
 <body th:object = "${reqTrainer}">
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-    <!--<div class="bg-image" style="background-image: url('https://assets.pokemon.com//assets/cms2/img/misc/virtual-backgrounds/masters/forest.jpg'); height: 100vh">-->
     <img src="https://assets.pokemon.com//assets/cms2/img/misc/virtual-backgrounds/masters/forest.jpg" id="bg" style="z-index:-5;" >
     <div th:object = "${reqTrainer.reqPoke}">
-    <div class = "jumbotron text-center">POKEMON #<span th:text= "*{idNum}"></span>
-        <div><img class="rounded" style="width: auto; height: 250px;" th:src="*{imgURL}"></img></div>
+        <div class = "jumbotron text-center">POKEMON #<span th:text= "*{idNum}"></span>
+            <div><img class="rounded" style="width: auto; height: 250px;" th:src="*{imgURL}"></img></div>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class = "col"></div>
+                <div class = "col  rounded container-sm display-4 bg-secondary font-weight-bold" style="text-transform:uppercase;" th:text= "*{name}"></div>
+                <div class = "col"></div>
+            </div>
+        </div>
+        <br>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class = "col"></div>
-            <div class = "col  rounded container-sm display-4 bg-secondary font-weight-bold" style="text-transform:uppercase;" th:text= "*{name}"></div>
+            <div class = "col">
+                <table class = "col container table table-sm table-striped table-dark table-bordered table-hover" >
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 16.66%">Types</th>
+                            <th scope="col" style="width: 16.66%">        
+                                <span th:each="type:*{types}"><span style="text-transform:uppercase;" th:text = "${type}"></span> </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span>HP:</span></td><td><span th:text="*{statsMap.get('hp')}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span>ATTACK:</span></td><td><span th:text="*{statsMap.get('attack')}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span>DEFENSE:</span></td><td><span th:text="*{statsMap.get('defense')}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span>SPECIAL ATTACK:</span></td><td><span th:text="*{statsMap.get('special-attack')}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span>SPECIAL DEFENSE:</span></td><td><span th:text="*{statsMap.get('special-defense')}"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span>SPEED:</span></td><td><span th:text="*{statsMap.get('speed')}"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class = "col"></div>
         </div>
-    </div>
-    <br>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class = "col"></div>
-        <div class = "col">
-        <table class = "col container table table-sm table-striped table-dark table-bordered table-hover" >
-            <thead>
-            <tr>
-                <th scope="col" style="width: 16.66%">Types</th>
-                <th scope="col" style="width: 16.66%">        
-                    <span th:each="type:*{types}"><span style="text-transform:uppercase;" th:text = "${type}"></span> </span>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><span>HP:</span></td><td><span th:text="*{statsMap.get('hp')}"></span></td>
-            </tr>
-            <tr>
-                <td><span>ATTACK:</span></td><td><span th:text="*{statsMap.get('attack')}"></span></td>
-            </tr>
-            <tr>
-                <td><span>DEFENSE:</span></td><td><span th:text="*{statsMap.get('defense')}"></span></td>
-            </tr>
-            <tr>
-                <td><span>SPECIAL ATTACK:</span></td><td><span th:text="*{statsMap.get('special-attack')}"></span></td>
-            </tr>
-            <tr>
-                <td><span>SPECIAL DEFENSE:</span></td><td><span th:text="*{statsMap.get('special-defense')}"></span></td>
-            </tr>
-            <tr>
-                <td><span>SPEED:</span></td><td><span th:text="*{statsMap.get('speed')}"></span></td>
-            </tr>
-        </tbody>
-        </table>
-        </div>
-        <div class = "col"></div>
-    </div>
     </div>
     <div class = "jumbotron text-center">
         <span><a th:href = "@{'/' + *{trainerName} + '/add/' + *{reqPoke.name}}" ><input type="button" value="ADD" class="btn btn-primary"></a></span>
         <span><a th:href = "@{'/' + *{trainerName} + '/back'}" ><input type="button" value="BACK" class="btn btn-secondary"></a></span>
     </div>
-</div>
-    
 </body>
 </html>

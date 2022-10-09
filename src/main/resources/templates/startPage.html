@@ -10,22 +10,17 @@
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-        <!--<div class="bg-image" style="background-image: url('BG.png'); height: 100vh">-->
         <img src="BG.png" id="bg" style="z-index:-5;" >
         <div class = "jumbotron text-center ">
             <h1>Welcome to PokeTeam Builder</h1>
         </div>
-        
         <img style="width: 30%; height: auto;" class = "rounded mx-auto d-block" th:src = "PokeBG.jpg" />
         <br>
         <div style="text-align:center">
-            
             <form th:object="${Trainer}" action="#" th:action="@{/user}">
                 <b><span class="font-weight-bold">USERNAME:</span></b><input class ="rounded" type="text" th:field = "*{trainerName}" /><br><br>
                 <button class="btn btn-primary btn-lg btn-block btn-outline-dark" type="submit" value="login"><b>LOGIN</b></button>  
             </form>
         </div>
-        </div>
-    
 </body>
 </html>

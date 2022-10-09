@@ -11,19 +11,23 @@
 <body th:object = "${reqTrainer}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <img src="https://assets.pokemon.com//assets/cms2/img/misc/virtual-backgrounds/masters/forest.jpg" id="bg" style="z-index:-5;" >
+    <br>
+    <br>
     <form action = "#" th:action = "@{'/' + *{trainerName} + '/addMultiple'}" method = "post" >
         <div class="container" >
             <input type = "hidden" th:field = "*{trainerName}">
             <div class="row row-cols-3">
                 <div class = "col"th:each="Pokemon, stat:*{pokeSearchArrPoke}">
-                    <div class = "col card " >
+                    <div class = "col card bg-dark mb-3 border-dark" >
                         <div class = "d-flex justify-content-center">
-                            <img class="" style="width: 100px; height: 100px;" th:src="${Pokemon.imgURL}"></img>
+                            <img class="" style="width: 100px; height: 150px;" th:src="${Pokemon.imgURL}"></img>
                         </div>
-                        <input type = "text" class  = "text-center" style="text-transform:uppercase;" th:field="*{pokeSearchArrPoke[__${stat.index}__].name}">
-                        <p>ID: <span class  = "text-center" th:text="${Pokemon.idNum}" style="text-transform:uppercase;"></span> </p>
-                        <p>Type: <span class  = "text-center" th:each="type:${Pokemon.types}"> <span style="text-transform:uppercase;" th:text = "${type}"> </span></span> </p>
-                        <input type = "checkbox" th:field = "*{pokeSearchArrPoke[__${stat.index}__].checked}">
+                        <input type = "text" class  = "text-center bg-dark border-dark text-white font-weight-bold" style="text-transform:uppercase;" th:field="*{pokeSearchArrPoke[__${stat.index}__].name}">
+                        <div class = "text-center text-white">
+                            <p>ID: <span class  = "text-center" th:text="${Pokemon.idNum}" style="text-transform:uppercase;"></span> </p>
+                            <p>Type: <span class  = "text-center" th:each="type:${Pokemon.types}"> <span style="text-transform:uppercase;" th:text = "${type}"> </span></span> </p>
+                            <input type = "checkbox" th:field = "*{pokeSearchArrPoke[__${stat.index}__].checked}">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,7 +38,6 @@
                 <span><a th:href = "@{'/' + *{trainerName} + '/addAll'}" ><input type="button" value="ADD ALL" class="btn btn-success"></a></span>
                 <span><a th:href = "@{'/' + *{trainerName} + '/back'}" ><input type="button" value="BACK" class="btn btn-secondary"></a></span>
             </p>
-
         </div>
     </form>
 </body>

@@ -49,22 +49,15 @@ public class Pokemon implements Serializable{
     
     public String[] getTypes() { return types; }
     public void setTypes(String[] value) { this.types = value; }
-    
-    // private HashMap<String, String> typesMap = new HashMap<>();
-    // private Stats[] stats;
-    // public HashMap<String, String> getTypesMap() {
-        //     return typesMap;
-        // }
-        // public void setTypesMap(HashMap<String, String> typesMap) {
-    //     this.typesMap = typesMap;
-    // }
 
     public Pokemon(){
 
     }
+
     public Pokemon(String pokename){
         this.name = pokename;
     }
+
     //creating new pokemon with response from api
     public static Pokemon createJson(String jsonString){
         Pokemon poke = new Pokemon();
@@ -101,35 +94,6 @@ public class Pokemon implements Serializable{
                 String typeName = currentStatJsonObject.getJsonObject("type").getString("name");
                 poke.types[i] = typeName;
             }
-            
-            
-            // List<Stats> holdingStatsList = new LinkedList<>();
-            // for(int i=0; i<jArrayStats.size();i++){
-            //     JsonObject currentStats = jArrayStats.get(i).asJsonObject();
-            //     Stats holdingStats = Stats.createStats(currentStats);
-            //     holdingStatsList.add(holdingStats);
-            // }
-            // Stats[] arr = new Stats[holdingStatsList.size()];
-            // for(int j=0;j<holdingStatsList.size();j++){
-            //     arr[j] = holdingStatsList.get(j);
-            // }
-            // poke.stats=arr;
-            // List<Types> holdingTypesList = new LinkedList<>();
-            // for (int j=0;j<jArrayTypes.size();j++){
-            //     JsonObject currentTypes = jArrayTypes.getJsonObject(j);
-            //     Types holdingTypes = Types.createTypes(currentTypes);
-            //     holdingTypesList.add(holdingTypes);
-            // }
-            // Types[] arrTypes = new Types[holdingTypesList.size()];
-            // for(int k=0; k<holdingTypesList.size();k++){
-            //     arrTypes[k] = holdingTypesList.get(k);
-            // }
-            // poke.types=arrTypes;
-            //poke.types = (Types[]) jobject.getJsonArray("types").toArray(); //Doesnt work
-            // Stats[] statholder = poke.stats;
-            // String asd = statholder[0].getStatName();
-            //String holder = poke.stats[0].getStatName();
-            //logger.info("STATNAME>>> "+ holder);
         } catch (Exception e) {
             e.printStackTrace();
         }
